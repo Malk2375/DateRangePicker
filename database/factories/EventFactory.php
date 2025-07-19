@@ -19,11 +19,14 @@ class EventFactory extends Factory
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
+        $startsAt = $this->faker->dateTimeThisYear();
+        $endsAt = $this->faker->dateTimeBetween($startsAt, '+2 days');
         return [
             'title' => $this->faker->jobTitle(),
-            'starts_at' => $this->faker->dateTimeThisYear()
+            'starts_at' => $startsAt,
+            'ends_at' => $endsAt,
         ];
     }
 }
