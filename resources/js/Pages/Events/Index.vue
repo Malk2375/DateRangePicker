@@ -81,7 +81,7 @@ const onDelete = () => {
                     </template>
                 </Dialog>
             </div>
-            <Table :data="events" :headings="['Title', 'Date', 'Actions']">
+            <Table :data="events" :headings="['Title', 'Start Date', 'End Date', 'Actions']">
                 <template #row="{ item }">
                     <td>{{ item.title }}</td>
                     <td>
@@ -117,3 +117,4 @@ const onDelete = () => {
 </template>
 
 <style scoped></style>
+

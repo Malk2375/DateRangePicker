@@ -10,7 +10,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Event extends Model
 {
     use HasFactory;
-
+    protected $fillable = [
+        'title',
+        'starts_at',
+        'ends_at',
+    ];
     /**
      * Gets the user the event belongs to.
      */
@@ -22,12 +26,12 @@ class Event extends Model
     /**
      * Scope a query to only include events that occure between two dates.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  DateTime  $startsAt
-     * @param  DateTime  $endsAt
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param DateTime $startsAt
+     * @param DateTime $endsAt
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeIsBetween($query, $startsAt, $endsAt)
+    public function scopeIsBetween( $query, $startsAt, $endsAt)
     {
         if ($startsAt) {
             $query->where('events.starts_at', '>', $startsAt);

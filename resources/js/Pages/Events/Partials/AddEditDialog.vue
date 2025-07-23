@@ -1,9 +1,10 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { useForm } from "@inertiajs/inertia-vue3";
 import Dialog from "@/Components/Common/DialogModal";
 import Button from "@/Components/Common/Button";
 import Input from "@/Components/Common/Input";
+import moment from "moment";
 
 const emit = defineEmits(["close"]);
 
@@ -29,13 +30,26 @@ const onAddNew = () => {
     show.value = true;
     editing.value = false;
 };
-
+watch(
+    () => props.itemToEdit,
+    (value) => {
+        if (value) {
+            editing.value = true;
+            form.title = value.title;
+            form.starts_at = moment(value.starts_at);
+            form.ends_at = moment(value.ends_at);
+            show.value = true;
+        }
+    }
+);
 // Called when the user submits the form
 const onSubmit = () => {
     const transform = (data) => ({
         ...data,
-        starts_at: data.starts_at.format("YYYY-MM-DD HH:mm"),
+        starts_at: moment(data.starts_at).format("YYYY-MM-DD HH:mm"),
+        ends_at: moment(data.ends_at).format("YYYY-MM-DD HH:mm"),
     });
+
 
     const requestParams = {
         preserveScroll: true,
@@ -76,6 +90,18 @@ const onClose = () => {
                 name="title"
                 label="Title"
                 v-model="form.title"
+                class="mb-6"
+            />
+            <Input
+                name="starts_at"
+                label="Start Date"
+                v-model="form.starts_at"
+                class="mb-6"
+            />
+            <Input
+                name="ends_at"
+                label="End Date"
+                v-model="form.ends_at"
                 class="mb-6"
             />
 
