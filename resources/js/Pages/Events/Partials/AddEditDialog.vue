@@ -5,6 +5,8 @@ import Dialog from "@/Components/Common/DialogModal";
 import Button from "@/Components/Common/Button";
 import Input from "@/Components/Common/Input";
 import moment from "moment";
+import Datepicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
 
 const emit = defineEmits(["close"]);
 
@@ -92,16 +94,27 @@ const onClose = () => {
                 v-model="form.title"
                 class="mb-6"
             />
-            <Input
-                name="starts_at"
-                label="Start Date"
+            <label for="starts_at" class="block text-sm font-medium text-gray-700 mb-1">
+                Start Date
+            </label>
+            <Datepicker
                 v-model="form.starts_at"
+                :enable-time-picker="true"
+                :format="'yyyy-MM-dd HH:mm'"
+                :minute-increment="5"
+                label="Start Date"
                 class="mb-6"
             />
-            <Input
-                name="ends_at"
-                label="End Date"
+
+            <label for="ends_at" class="block text-sm font-medium text-gray-700 mb-1">
+                End Date
+            </label>
+            <Datepicker
                 v-model="form.ends_at"
+                :enable-time-picker="true"
+                :format="'yyyy-MM-dd HH:mm'"
+                :minute-increment="5"
+                label="End Date"
                 class="mb-6"
             />
 

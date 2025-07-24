@@ -35,7 +35,7 @@ class EventController extends Controller
         Event::create([
             ...$data,
             'starts_at' => Carbon::createFromFormat('Y-m-d H:i', $data['starts_at']),
-            'ends_at' => Carbon::createFromFormat('Y-m-d H:i', $data['starts_at']),
+            'ends_at' => Carbon::createFromFormat('Y-m-d H:i', $data['ends_at']),
         ]);
 
         return Redirect::back();
