@@ -5,6 +5,7 @@ import { createInertiaApp } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
 import { ZiggyVue } from 'ziggy';
 import VueFeather from 'vue-feather';
+import '@vuepic/vue-datepicker/dist/main.css';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 

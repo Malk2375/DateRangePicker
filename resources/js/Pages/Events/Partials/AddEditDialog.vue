@@ -5,8 +5,7 @@ import Dialog from "@/Components/Common/DialogModal";
 import Button from "@/Components/Common/Button";
 import Input from "@/Components/Common/Input";
 import moment from "moment";
-import Datepicker from '@vuepic/vue-datepicker'
-import '@vuepic/vue-datepicker/dist/main.css'
+import DateTimePicker from "@/Components/Common/DateTimePickers/DateTimePicker.vue";
 
 const emit = defineEmits(["close"]);
 
@@ -84,9 +83,9 @@ const onClose = () => {
             <span class="ml-2">Add new</span>
         </Button>
         <Dialog :show="show" @close="onClose">
-            <template #header>{{
-                editing ? "Edit event" : "Add new event"
-            }}</template>
+            <template #header>
+                {{ editing ? "Edit event" : "Add new event" }}
+            </template>
 
             <Input
                 name="title"
@@ -94,38 +93,30 @@ const onClose = () => {
                 v-model="form.title"
                 class="mb-6"
             />
-            <label for="starts_at" class="block text-sm font-medium text-gray-700 mb-1">
-                Start Date
-            </label>
-            <Datepicker
+
+            <DateTimePicker
                 v-model="form.starts_at"
-                :enable-time-picker="true"
-                :format="'yyyy-MM-dd HH:mm'"
-                :minute-increment="5"
-                label="Start Date"
+                label="Start date"
+                type="datetime"
                 class="mb-6"
             />
 
-            <label for="ends_at" class="block text-sm font-medium text-gray-700 mb-1">
-                End Date
-            </label>
-            <Datepicker
+            <DateTimePicker
                 v-model="form.ends_at"
-                :enable-time-picker="true"
-                :format="'yyyy-MM-dd HH:mm'"
-                :minute-increment="5"
-                label="End Date"
+                label="End date"
+                type="datetime"
                 class="mb-6"
             />
 
             <template #footer>
-                <Button variant="secondary" class="mr-3" @click="onClose"
-                    >Cancel</Button
-                >
+                <Button variant="secondary" class="mr-3" @click="onClose">
+                    Cancel
+                </Button>
                 <Button @click="onSubmit">Submit</Button>
             </template>
         </Dialog>
     </div>
 </template>
+
 
 <style scoped></style>

@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base {
-    table tbody tr td {
+    table tbody tr td, table thead tr th {
         @apply py-4 px-6 font-medium text-gray-900 whitespace-normal;
     }
 }
