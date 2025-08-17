@@ -10,7 +10,6 @@ const props = defineProps({
     withTime: Boolean,
 });
 
-
 const emit = defineEmits(["change"]);
 
 const currentMonth = ref((props.value || moment()).clone().startOf("month"));
@@ -24,7 +23,7 @@ watch(
             currentMonth.value = moment().startOf("month");
         }
     },
-    { immediate: true }
+    {immediate: true}
 );
 
 const daysInMonth = computed(() => {
@@ -66,7 +65,7 @@ const updateTime = (type, val) => {
         <div class="flex justify-between items-center mb-2">
             <button class="w-5" @click="changeMonth(-1)">‹</button>
             <span>{{ currentMonth.format("MMMM YYYY") }}</span>
-            <button @click="changeMonth(1)">›</button>
+            <button class="w-5" @click="changeMonth(1)">›</button>
         </div>
 
         <!-- Days of week -->

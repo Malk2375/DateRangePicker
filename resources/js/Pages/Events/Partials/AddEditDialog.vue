@@ -59,11 +59,13 @@ const onSubmit = () => {
             : null,
     });
 
+
     const requestParams = {
         preserveScroll: true,
         onSuccess: onClose,
     };
 
+    // Stores or updates the item
     if (editing.value) {
         form.transform(transform).put(
             route("events.update", props.itemToEdit.id),
