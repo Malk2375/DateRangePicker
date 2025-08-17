@@ -59,6 +59,7 @@ const format = computed(() => {
                     :show="showPopup"
                     :value="modelValue"
                     :with-date="hasDate"
+                    :with-time="hasTime"
                     @change="$emit('update:modelValue', $event)"
                 />
             </button>

@@ -1,11 +1,11 @@
 <script setup>
-import { ref, watch } from "vue";
-import { useForm } from "@inertiajs/inertia-vue3";
+import {ref, watch} from "vue";
+import {useForm} from "@inertiajs/inertia-vue3";
 import Dialog from "@/Components/Common/DialogModal";
 import Button from "@/Components/Common/Button";
 import Input from "@/Components/Common/Input";
 import moment from "moment";
-import DateTimePicker from "@/Components/Common/DateTimePickers/DateTimePicker.vue";
+import DateRangePicker from "@/Components/Common/DateTimePickers/DateRangePicker.vue";
 
 const emit = defineEmits(["close"]);
 
@@ -21,43 +21,49 @@ const editing = ref(false);
 
 const form = useForm({
     title: "",
-    starts_at: null,
-    ends_at: null,
+    dateRange: [null, null],
 });
 
-// Called when the user clicks on the "Add new" button
-const onAddNew = () => {
-    form.reset();
-    show.value = true;
-    editing.value = false;
-};
 watch(
     () => props.itemToEdit,
     (value) => {
         if (value) {
             editing.value = true;
             form.title = value.title;
-            form.starts_at = moment(value.starts_at);
-            form.ends_at = moment(value.ends_at);
+            form.dateRange = [
+                moment(value.starts_at),
+                moment(value.ends_at),
+            ];
             show.value = true;
         }
     }
 );
+
+// Called when the user clicks on the "Add new" button
+const onAddNew = () => {
+    form.reset();
+    form.dateRange = [null, null]; // ⬅️ reset correct
+    show.value = true;
+    editing.value = false;
+};
+
 // Called when the user submits the form
 const onSubmit = () => {
     const transform = (data) => ({
         ...data,
-        starts_at: moment(data.starts_at).format("YYYY-MM-DD HH:mm"),
-        ends_at: moment(data.ends_at).format("YYYY-MM-DD HH:mm"),
+        starts_at: data.dateRange[0]
+            ? moment(data.dateRange[0]).format("YYYY-MM-DD HH:mm")
+            : null,
+        ends_at: data.dateRange[1]
+            ? moment(data.dateRange[1]).format("YYYY-MM-DD HH:mm")
+            : null,
     });
-
 
     const requestParams = {
         preserveScroll: true,
         onSuccess: onClose,
     };
 
-    // Stores or updates the item
     if (editing.value) {
         form.transform(transform).put(
             route("events.update", props.itemToEdit.id),
@@ -94,19 +100,7 @@ const onClose = () => {
                 class="mb-6"
             />
 
-            <DateTimePicker
-                v-model="form.starts_at"
-                label="Start date"
-                type="datetime"
-                class="mb-6"
-            />
-
-            <DateTimePicker
-                v-model="form.ends_at"
-                label="End date"
-                type="datetime"
-                class="mb-6"
-            />
+            <DateRangePicker v-model="form.dateRange"/>
 
             <template #footer>
                 <Button variant="secondary" class="mr-3" @click="onClose">
@@ -117,6 +111,3 @@ const onClose = () => {
         </Dialog>
     </div>
 </template>
-
-
-<style scoped></style>

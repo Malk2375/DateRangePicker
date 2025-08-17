@@ -1,13 +1,15 @@
 <script setup>
-import {ref, computed, watch} from "vue";
+import { ref, computed, watch } from "vue";
 import moment from "moment";
 
 const props = defineProps({
     show: Boolean,
     value: Object,
-    withDate: Boolean,
+    startDate: Object,
+    endDate: Object,
     withTime: Boolean,
 });
+
 
 const emit = defineEmits(["change"]);
 
@@ -22,7 +24,7 @@ watch(
             currentMonth.value = moment().startOf("month");
         }
     },
-    {immediate: true}
+    { immediate: true }
 );
 
 const daysInMonth = computed(() => {
@@ -59,12 +61,12 @@ const updateTime = (type, val) => {
 </script>
 
 <template>
-    <div v-if="show" class="absolute mt-1 z-40 w-1\/2 bg-white border rounded-lg shadow-lg p-3" style="left: 50%; transform: translateX(-50%);">
+    <div v-if="show" class="absolute mt-1 z-40 w-full bg-white border rounded-lg shadow-lg p-3" style="left: 50%; transform: translateX(-50%);">
         <!-- Header -->
         <div class="flex justify-between items-center mb-2">
             <button class="w-5" @click="changeMonth(-1)">‹</button>
             <span>{{ currentMonth.format("MMMM YYYY") }}</span>
-            <button class="w-5" @click="changeMonth(1)">›</button>
+            <button @click="changeMonth(1)">›</button>
         </div>
 
         <!-- Days of week -->
@@ -80,6 +82,7 @@ const updateTime = (type, val) => {
                 class="p-2 rounded cursor-pointer"
                 :class="{
                   'bg-indigo-500 text-white': isSelected(day),
+                  'bg-indigo-100': props.startDate && props.endDate && day.isBetween(props.startDate, props.endDate, 'day', '[]'),
                   'text-gray-400': day.month() !== currentMonth.month(),
                   'hover:bg-indigo-200': true
                 }"
